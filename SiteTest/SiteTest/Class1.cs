@@ -25,31 +25,43 @@ namespace SiteTest
         [TestCase]//заголовок
         public void MainTitle()
         {
-            webDriver.Url = "https://www.nstu.ru/";
+            //webDriver.Url = "https://www.nstu.ru/";
 
-            Assert.AreEqual("НГТУ. Новосибирский государственный технический университет", webDriver.Title);
+            //Assert.AreEqual("НГТУ. Новосибирский государственный технический университет", webDriver.Title);
+            webDriver.Url = "https://sibsutis.ru/";
 
+            Assert.AreEqual("Сибирский государственный университет телекоммуникаций и информатики", webDriver.Title);
             webDriver.Close();
         }
 
         [TestCase]//видимость объектов
         public void DisplayObject()
         {
-            webDriver.Url = "https://www.nstu.ru/";
+            //webDriver.Url = "https://www.nstu.ru/";
 
-            IWebElement element = webDriver.FindElement(By.XPath("//*[@id=\"query\"]"));
+            //IWebElement element = webDriver.FindElement(By.XPath("//*[@id=\"query\"]"));
+            webDriver.Url = "https://sibsutis.ru/";
+
+            IWebElement element = webDriver.FindElement(By.XPath("//*[@id=\"layout\"]/div[2]/div[2]/div[2]/div[6]/div[2]/a[1]"));
             bool status = element.Displayed;
+            Assert.True(status);
 
             webDriver.Close();
         }
 
-        [TestCase]//переход по ссылке
-        public void LinkPath()
+        [TestCase]//переход по ссылке и эмуляция нажатия на кнопку 
+        public void LinkPath_ButtonClick()
         {
-            webDriver.Url = "https://www.nstu.ru/";
+            webDriver.Url = "https://sibsutis.ru/";
 
-            webDriver.Navigate().Forward();
-            webDriver.Navigate().Back();
+            IWebElement element = webDriver.FindElement(By.XPath("//*[@id=\"mainMenu\"]/a[1]"));
+            bool status = element.Displayed;
+            element.Click();
+            //webDriver.Navigate().Forward();
+
+            IWebElement element1 = webDriver.FindElement(By.XPath("//*[@id=\"layout\"]/h1/a"));
+            bool status1 = element1.Displayed;
+            Assert.True(status1);
 
            // webDriver.Close();
         }
@@ -58,11 +70,10 @@ namespace SiteTest
         public void Enter()
         {
             webDriver.Url = "https://sibsutis.ru/";
-            
 
             IWebElement search = webDriver.FindElement(By.XPath("//*[@id=\"qqq\"]"));//ссылка на строку поиска
             search.SendKeys("]t]аогевгоеошгеогеокык7говер");//ввод запроса
-            
+
             IWebElement button = webDriver.FindElement(By.XPath("//*[@id=\"layout\"]/div[2]/div[2]/div[2]/div[3]/form/input[2]"));//ссылка на кнопку найти
             button.Click();
 
@@ -71,12 +82,22 @@ namespace SiteTest
             webDriver.Close();
         }
 
-        [TestCase]//эмуляция нажатия на кнопку
+        //[TestCase]//эмуляция нажатия на кнопку
+        //public void But()
+        //{
+        //    webDriver.Url = "https://sibsutis.ru/";
+
+        //    IWebElement button = webDriver.FindElement(By.XPath("//*[@id=\"layout\"]/div[2]/div[2]/div[2]/div[6]/div[2]/a[1]"));
+        //    bool status = button.Displayed;
+        //    Assert.True(status);
+
+        //    button.PerformClick();
+        //}
 
         [TearDown]//все тесты выполнены
         public void TestEnd()
         {
-            webDriver.Quit();
+         //   webDriver.Quit();
         }
     }
 }
